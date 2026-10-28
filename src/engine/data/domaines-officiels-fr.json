@@ -1,0 +1,757 @@
+{
+  "version": "0.2.0",
+  "maj": "2026-10-27",
+  "note": "Liste blanche initiale. Chaque domaine doit être revérifié automatiquement (DNS + HTTPS + titulaire) en Phase 2. Les sous-domaines des domaines listés sont considérés comme officiels. Le suffixe .gouv.fr entier est traité comme officiel.",
+  "suffixesOfficiels": [
+    "gouv.fr"
+  ],
+  "marques": [
+    {
+      "id": "impots",
+      "nom": "Impôts (DGFiP)",
+      "categorie": "administration",
+      "domaines": [
+        "impots.gouv.fr",
+        "finances.gouv.fr"
+      ],
+      "motsCles": [
+        "impots",
+        "impot",
+        "dgfip",
+        "finances-publiques"
+      ],
+      "arnaquesTypiques": "faux remboursement d'impôt, faux avis de taxe"
+    },
+    {
+      "id": "caf",
+      "nom": "CAF",
+      "categorie": "administration",
+      "domaines": [
+        "caf.fr",
+        "monenfant.fr"
+      ],
+      "motsCles": [
+        "caf",
+        "allocations",
+        "allocation-familiale"
+      ],
+      "arnaquesTypiques": "faux trop-perçu, fausse mise à jour du dossier"
+    },
+    {
+      "id": "ameli",
+      "nom": "Assurance Maladie (Ameli)",
+      "categorie": "administration",
+      "domaines": [
+        "ameli.fr",
+        "monespacesante.fr",
+        "assurance-maladie.fr"
+      ],
+      "motsCles": [
+        "ameli",
+        "assurance-maladie",
+        "carte-vitale",
+        "cpam",
+        "vitale",
+        "cartevitale"
+      ],
+      "arnaquesTypiques": "fausse carte Vitale à renouveler, faux remboursement"
+    },
+    {
+      "id": "service-public",
+      "nom": "Service-Public",
+      "categorie": "administration",
+      "domaines": [
+        "service-public.gouv.fr",
+        "service-public.fr"
+      ],
+      "motsCles": [
+        "service-public",
+        "servicepublic"
+      ],
+      "arnaquesTypiques": "fausses démarches payantes"
+    },
+    {
+      "id": "ants",
+      "nom": "ANTS",
+      "categorie": "administration",
+      "domaines": [
+        "ants.gouv.fr"
+      ],
+      "motsCles": [
+        "ants",
+        "carte-grise",
+        "permis",
+        "immatriculation",
+        "passeport"
+      ],
+      "arnaquesTypiques": "faux sites de carte grise payants"
+    },
+    {
+      "id": "france-travail",
+      "nom": "France Travail",
+      "categorie": "administration",
+      "domaines": [
+        "francetravail.fr",
+        "pole-emploi.fr"
+      ],
+      "motsCles": [
+        "francetravail",
+        "france-travail",
+        "pole-emploi",
+        "poleemploi"
+      ],
+      "arnaquesTypiques": "fausse actualisation, faux versement"
+    },
+    {
+      "id": "antai",
+      "nom": "ANTAI (amendes)",
+      "categorie": "administration",
+      "domaines": [
+        "antai.gouv.fr",
+        "amendes.gouv.fr"
+      ],
+      "motsCles": [
+        "antai",
+        "amende",
+        "amendes",
+        "contravention",
+        "pv"
+      ],
+      "arnaquesTypiques": "fausse amende impayée par SMS"
+    },
+    {
+      "id": "critair",
+      "nom": "Crit'Air",
+      "categorie": "administration",
+      "domaines": [
+        "certificat-air.gouv.fr"
+      ],
+      "motsCles": [
+        "critair",
+        "crit-air",
+        "vignette",
+        "certificat-air"
+      ],
+      "arnaquesTypiques": "vignette Crit'Air vendue plus cher"
+    },
+    {
+      "id": "cpf",
+      "nom": "Mon Compte Formation",
+      "categorie": "administration",
+      "domaines": [
+        "moncompteformation.gouv.fr"
+      ],
+      "motsCles": [
+        "cpf",
+        "moncompteformation",
+        "compte-formation"
+      ],
+      "arnaquesTypiques": "faux droits CPF à utiliser avant expiration"
+    },
+    {
+      "id": "franceconnect",
+      "nom": "FranceConnect",
+      "categorie": "administration",
+      "domaines": [
+        "franceconnect.gouv.fr"
+      ],
+      "motsCles": [
+        "franceconnect",
+        "france-connect"
+      ],
+      "arnaquesTypiques": "fausse page de connexion"
+    },
+    {
+      "id": "urssaf",
+      "nom": "Urssaf",
+      "categorie": "administration",
+      "domaines": [
+        "urssaf.fr"
+      ],
+      "motsCles": [
+        "urssaf"
+      ],
+      "arnaquesTypiques": "faux redressement"
+    },
+    {
+      "id": "retraite",
+      "nom": "Assurance retraite",
+      "categorie": "administration",
+      "domaines": [
+        "lassuranceretraite.fr",
+        "info-retraite.fr",
+        "cnav.fr",
+        "carsat.fr"
+      ],
+      "motsCles": [
+        "retraite",
+        "cnav",
+        "carsat"
+      ],
+      "arnaquesTypiques": "fausse revalorisation"
+    },
+    {
+      "id": "msa",
+      "nom": "MSA",
+      "categorie": "administration",
+      "domaines": [
+        "msa.fr"
+      ],
+      "motsCles": [
+        "msa"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "laposte",
+      "nom": "La Poste / Colissimo",
+      "categorie": "colis",
+      "domaines": [
+        "laposte.fr",
+        "colissimo.fr",
+        "laposte.net",
+        "lapostegroupe.com",
+        "laposterecrute.fr"
+      ],
+      "motsCles": [
+        "laposte",
+        "la-poste",
+        "colissimo",
+        "suivi-colis"
+      ],
+      "arnaquesTypiques": "frais de réexpédition de colis"
+    },
+    {
+      "id": "chronopost",
+      "nom": "Chronopost",
+      "categorie": "colis",
+      "domaines": [
+        "chronopost.fr"
+      ],
+      "motsCles": [
+        "chronopost"
+      ],
+      "arnaquesTypiques": "colis en attente, frais de livraison"
+    },
+    {
+      "id": "mondialrelay",
+      "nom": "Mondial Relay",
+      "categorie": "colis",
+      "domaines": [
+        "mondialrelay.fr"
+      ],
+      "motsCles": [
+        "mondialrelay",
+        "mondial-relay"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "dhl",
+      "nom": "DHL",
+      "categorie": "colis",
+      "domaines": [
+        "dhl.com",
+        "dhl.fr"
+      ],
+      "motsCles": [
+        "dhl"
+      ],
+      "arnaquesTypiques": "frais de douane"
+    },
+    {
+      "id": "ups",
+      "nom": "UPS",
+      "categorie": "colis",
+      "domaines": [
+        "ups.com"
+      ],
+      "motsCles": [
+        "ups"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "dpd",
+      "nom": "DPD",
+      "categorie": "colis",
+      "domaines": [
+        "dpd.fr",
+        "dpd.com"
+      ],
+      "motsCles": [
+        "dpd"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "edf",
+      "nom": "EDF",
+      "categorie": "energie",
+      "domaines": [
+        "edf.fr",
+        "izi-by-edf.fr",
+        "edf-oa.fr"
+      ],
+      "motsCles": [
+        "edf",
+        "electricite"
+      ],
+      "arnaquesTypiques": "faux remboursement, fausse coupure"
+    },
+    {
+      "id": "engie",
+      "nom": "Engie",
+      "categorie": "energie",
+      "domaines": [
+        "engie.fr"
+      ],
+      "motsCles": [
+        "engie"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "totalenergies",
+      "nom": "TotalEnergies",
+      "categorie": "energie",
+      "domaines": [
+        "totalenergies.fr",
+        "totalenergies.com"
+      ],
+      "motsCles": [
+        "totalenergies"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "credit-agricole",
+      "nom": "Crédit Agricole",
+      "categorie": "banque",
+      "domaines": [
+        "credit-agricole.fr",
+        "credit-agricole.com",
+        "ca-mobile.com"
+      ],
+      "motsCles": [
+        "credit-agricole",
+        "creditagricole",
+        "ca-"
+      ],
+      "arnaquesTypiques": "faux conseiller, fausse validation de bénéficiaire"
+    },
+    {
+      "id": "bnp",
+      "nom": "BNP Paribas",
+      "categorie": "banque",
+      "domaines": [
+        "mabanque.bnpparibas",
+        "bnpparibas",
+        "bnpparibas.fr",
+        "bnpparibas.com"
+      ],
+      "motsCles": [
+        "bnp",
+        "bnpparibas"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "hellobank",
+      "nom": "Hello bank!",
+      "categorie": "banque",
+      "domaines": [
+        "hellobank.fr"
+      ],
+      "motsCles": [
+        "hellobank"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "societegenerale",
+      "nom": "Société Générale / SG",
+      "categorie": "banque",
+      "domaines": [
+        "sg.fr",
+        "societegenerale.fr",
+        "societegenerale.com"
+      ],
+      "motsCles": [
+        "societegenerale",
+        "societe-generale",
+        "sg-"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "lcl",
+      "nom": "LCL",
+      "categorie": "banque",
+      "domaines": [
+        "lcl.fr"
+      ],
+      "motsCles": [
+        "lcl"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "caisse-epargne",
+      "nom": "Caisse d'Épargne",
+      "categorie": "banque",
+      "domaines": [
+        "caisse-epargne.fr"
+      ],
+      "motsCles": [
+        "caisse-epargne",
+        "caisseepargne"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "banque-populaire",
+      "nom": "Banque Populaire",
+      "categorie": "banque",
+      "domaines": [
+        "banquepopulaire.fr"
+      ],
+      "motsCles": [
+        "banquepopulaire",
+        "banque-populaire"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "banque-postale",
+      "nom": "La Banque Postale",
+      "categorie": "banque",
+      "domaines": [
+        "labanquepostale.fr"
+      ],
+      "motsCles": [
+        "labanquepostale",
+        "banque-postale",
+        "banquepostale"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "boursobank",
+      "nom": "BoursoBank (ex-Boursorama)",
+      "categorie": "banque",
+      "domaines": [
+        "boursobank.com",
+        "boursorama.com"
+      ],
+      "motsCles": [
+        "boursorama",
+        "boursobank"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "credit-mutuel",
+      "nom": "Crédit Mutuel / CIC",
+      "categorie": "banque",
+      "domaines": [
+        "creditmutuel.fr",
+        "cic.fr"
+      ],
+      "motsCles": [
+        "creditmutuel",
+        "credit-mutuel",
+        "cic"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "fortuneo",
+      "nom": "Fortuneo",
+      "categorie": "banque",
+      "domaines": [
+        "fortuneo.fr"
+      ],
+      "motsCles": [
+        "fortuneo"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "paypal",
+      "nom": "PayPal",
+      "categorie": "paiement",
+      "domaines": [
+        "paypal.com",
+        "paypal.fr"
+      ],
+      "motsCles": [
+        "paypal"
+      ],
+      "arnaquesTypiques": "compte limité, paiement à valider"
+    },
+    {
+      "id": "banque-de-france",
+      "nom": "Banque de France",
+      "categorie": "administration",
+      "domaines": [
+        "banque-france.fr"
+      ],
+      "motsCles": [
+        "banque-de-france",
+        "banquedefrance"
+      ],
+      "arnaquesTypiques": "faux agent Banque de France"
+    },
+    {
+      "id": "orange",
+      "nom": "Orange",
+      "categorie": "operateur",
+      "domaines": [
+        "orange.fr",
+        "orange.com",
+        "sosh.fr",
+        "orangemoney.fr",
+        "orange-business.com"
+      ],
+      "motsCles": [
+        "orange",
+        "sosh"
+      ],
+      "arnaquesTypiques": "facture impayée, points fidélité"
+    },
+    {
+      "id": "sfr",
+      "nom": "SFR / RED",
+      "categorie": "operateur",
+      "domaines": [
+        "sfr.fr",
+        "red-by-sfr.fr"
+      ],
+      "motsCles": [
+        "sfr"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "bouygues",
+      "nom": "Bouygues Telecom",
+      "categorie": "operateur",
+      "domaines": [
+        "bouyguestelecom.fr",
+        "bouyguestelecom-entreprises.fr",
+        "bouyguestelecom.com"
+      ],
+      "motsCles": [
+        "bouygues",
+        "bouyguestelecom"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "free",
+      "nom": "Free",
+      "categorie": "operateur",
+      "domaines": [
+        "free.fr",
+        "freebox.fr",
+        "free-mobile.fr"
+      ],
+      "motsCles": [
+        "free",
+        "freebox",
+        "free-mobile"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "netflix",
+      "nom": "Netflix",
+      "categorie": "service",
+      "domaines": [
+        "netflix.com"
+      ],
+      "motsCles": [
+        "netflix"
+      ],
+      "arnaquesTypiques": "paiement refusé, compte suspendu"
+    },
+    {
+      "id": "amazon",
+      "nom": "Amazon",
+      "categorie": "commerce",
+      "domaines": [
+        "amazon.fr",
+        "amazon.com"
+      ],
+      "motsCles": [
+        "amazon",
+        "amzn",
+        "prime"
+      ],
+      "arnaquesTypiques": "commande suspecte, compte bloqué"
+    },
+    {
+      "id": "leboncoin",
+      "nom": "Leboncoin",
+      "categorie": "commerce",
+      "domaines": [
+        "leboncoin.fr"
+      ],
+      "motsCles": [
+        "leboncoin",
+        "lbc",
+        "bon-coin"
+      ],
+      "arnaquesTypiques": "faux paiement sécurisé, faux livreur"
+    },
+    {
+      "id": "vinted",
+      "nom": "Vinted",
+      "categorie": "commerce",
+      "domaines": [
+        "vinted.fr",
+        "vinted.com"
+      ],
+      "motsCles": [
+        "vinted"
+      ],
+      "arnaquesTypiques": "faux paiement à recevoir"
+    },
+    {
+      "id": "cdiscount",
+      "nom": "Cdiscount",
+      "categorie": "commerce",
+      "domaines": [
+        "cdiscount.com"
+      ],
+      "motsCles": [
+        "cdiscount"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "fnac-darty",
+      "nom": "Fnac / Darty",
+      "categorie": "commerce",
+      "domaines": [
+        "fnac.com",
+        "darty.com"
+      ],
+      "motsCles": [
+        "fnac",
+        "darty"
+      ],
+      "arnaquesTypiques": "faux jeux concours"
+    },
+    {
+      "id": "apple",
+      "nom": "Apple",
+      "categorie": "service",
+      "domaines": [
+        "apple.com",
+        "icloud.com"
+      ],
+      "motsCles": [
+        "apple",
+        "icloud",
+        "appleid"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "microsoft",
+      "nom": "Microsoft",
+      "categorie": "service",
+      "domaines": [
+        "microsoft.com",
+        "live.com",
+        "outlook.com",
+        "office.com"
+      ],
+      "motsCles": [
+        "microsoft",
+        "outlook",
+        "office365",
+        "hotmail"
+      ],
+      "arnaquesTypiques": "faux support technique"
+    },
+    {
+      "id": "google",
+      "nom": "Google",
+      "categorie": "service",
+      "domaines": [
+        "google.com",
+        "google.fr",
+        "gmail.com"
+      ],
+      "motsCles": [
+        "google",
+        "gmail"
+      ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "meta",
+      "nom": "Facebook / Instagram / WhatsApp",
+      "categorie": "service",
+      "domaines": [
+        "facebook.com",
+        "instagram.com",
+        "whatsapp.com"
+      ],
+      "motsCles": [
+        "facebook",
+        "instagram",
+        "whatsapp",
+        "meta"
+      ],
+      "arnaquesTypiques": "compte désactivé, faux droits d'auteur"
+    },
+    {
+      "id": "vinci",
+      "nom": "Vinci Autoroutes",
+      "categorie": "transport",
+      "domaines": [
+        "vinci-autoroutes.com"
+      ],
+      "motsCles": [
+        "vinci",
+        "peage",
+        "autoroute"
+      ],
+      "arnaquesTypiques": "faux péage impayé"
+    },
+    {
+      "id": "sanef",
+      "nom": "Sanef",
+      "categorie": "transport",
+      "domaines": [
+        "sanef.com"
+      ],
+      "motsCles": [
+        "sanef",
+        "peage"
+      ],
+      "arnaquesTypiques": "faux péage impayé"
+    },
+    {
+      "id": "sncf",
+      "nom": "SNCF Connect",
+      "categorie": "transport",
+      "domaines": [
+        "sncf-connect.com",
+        "sncf.com",
+        "sncf.fr",
+        "sncf-voyageurs.com",
+        "ouigo.com"
+      ],
+      "motsCles": [
+        "sncf",
+        "ouigo"
+      ],
+      "arnaquesTypiques": ""
+    }
+  ]
+}

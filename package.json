@@ -1,0 +1,9 @@
+{
+  "name": "guardian-shield-lists",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "tldts": "7.4.19",
+    "punycode": "2.3.1"
+  }
+}

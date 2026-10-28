@@ -1,0 +1,47 @@
+# Construit et publie les listes de menaces toutes les heures (dépôt PUBLIC guardian-shield-lists).
+# Dépôt public : les minutes GitHub Actions ne sont pas décomptées.
+name: Listes de menaces
+
+on:
+  schedule:
+    - cron: '17 * * * *' # toutes les heures, à la 17e minute (évite le pic de :00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-lists
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --omit=dev
+      - name: Construire les listes
+        env:
+          GW_LIST_SIGNING_KEY: ${{ secrets.GW_LIST_SIGNING_KEY }}
+        run: node --experimental-strip-types tools/lists/build-lists.ts --out out
+      - name: Récupérer la publication précédente
+        run: git fetch origin lists && git worktree add prev origin/lists || mkdir -p prev
+      - name: Garde-fous (taille, changement)
+        id: guard
+        run: node --experimental-strip-types tools/lists/guard.ts prev/manifest.json out/manifest.json
+      - name: Publier dans la branche « lists »
+        if: steps.guard.outputs.publish == 'true'
+        run: |
+          git config user.name "guardian-lists-bot"
+          git config user.email "lists-bot@users.noreply.github.com"
+          git checkout --orphan lists-new
+          git rm -rf . > /dev/null
+          cp out/* .
+          git add *.gwl *.sig manifest.json
+          git commit -m "Listes du $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -f origin lists-new:lists
