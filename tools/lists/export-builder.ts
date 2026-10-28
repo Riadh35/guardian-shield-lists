@@ -22,6 +22,6 @@ writeFileSync(
 );
 writeFileSync(
   join(target, 'README.md'),
-  '# Guardian Wall — listes de menaces\n\nListes signées utilisées par l\'extension Guardian Wall – Anti-arnaque & Anti-phishing.\nConstruites toutes les heures à partir de Phishing.Database (MIT) et du Chrome UX Report (CC BY 4.0).\nLes fichiers publiés (branche `lists`) ne contiennent que des empreintes, pas d\'adresses en clair.\n',
+  '# Guardian Wall — listes de menaces\n\nListes signées utilisées par l\'extension Guardian Wall – Anti-arnaque & Anti-phishing.\nConstruites toutes les heures à partir de Phishing.Database (MIT), de phishunt.io (CC0 1.0) et du Chrome UX Report (CC BY 4.0).\nLes fichiers publiés (branche `lists`) ne contiennent que des empreintes, pas d\'adresses en clair.\n',
 );
 console.log(`Constructeur copié dans ${target}. Lancez « npm install » puis commitez package-lock.json.`);

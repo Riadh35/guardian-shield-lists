@@ -10,9 +10,11 @@
  *
  * Sources (licences vérifiées en Phase 0) :
  *   - Phishing.Database (MIT) : domaines et liens de phishing actifs.
+ *   - phishunt.io (CC0 1.0) : phishing détecté dans les dernières 24 h.
  *   - Chrome UX Report, top 1M (CC BY 4.0) via github.com/zakird/crux-top-lists : sites populaires,
  *     utilisés pour ÉVITER les faux positifs (jamais pour bloquer).
  */
+import { pathToFileURL } from 'node:url';
 import { createHash, createPrivateKey, sign } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -27,6 +29,9 @@ const SOURCES = {
   pdbDomains: 'https://raw.githubusercontent.com/Phishing-Database/Phishing.Database/master/phishing-domains-ACTIVE.txt',
   pdbLinks: 'https://raw.githubusercontent.com/Phishing-Database/Phishing.Database/master/phishing-links-ACTIVE.txt',
   crux: 'https://raw.githubusercontent.com/zakird/crux-top-lists/main/data/global/current.csv.gz',
+  // phishunt.io (CC0 1.0) : phishing des dernières 24 h, mis à jour toutes les heures. Ajouté en Phase 4,
+  // car Phishing.Database n'est plus mis à jour depuis le 2 octobre 2026.
+  phishunt: 'https://raw.githubusercontent.com/0xDanielLopez/phishunt-feed/main/feed.txt',
 } as const;
 
 /** Rang CrUX maximal pour qu'un domaine soit considéré « populaire ». */
@@ -155,12 +160,24 @@ export function buildFromRaw(pdbDomains: string, pdbLinks: string, cruxCsv: stri
 }
 
 async function main(): Promise<void> {
-  const [d, l, c] = await Promise.all([
+  const [d, l, c, ph] = await Promise.all([
     fetchCached(SOURCES.pdbDomains, 'pdb-domains.txt'),
     fetchCached(SOURCES.pdbLinks, 'pdb-links.txt'),
     fetchCached(SOURCES.crux, 'crux.csv.gz'),
+    // Source complémentaire : son absence ne bloque pas la construction.
+    fetchCached(SOURCES.phishunt, 'phishunt.txt').catch((err: unknown) => {
+      console.warn(`! phishunt indisponible : ${String(err)}`);
+      return Buffer.from('');
+    }),
   ]);
-  const { sets, stats } = buildFromRaw(d.toString('utf8'), l.toString('utf8'), gunzipSync(c).toString('utf8'));
+  const fresh = ph.toString('utf8').split('\n').map((x) => x.trim()).filter((x) => x.startsWith('http'));
+  const freshHosts = fresh.map((u) => { try { return new URL(u).hostname; } catch { return ''; } }).filter(Boolean);
+  console.log(`phishunt : ${fresh.length} adresses récentes`);
+  const { sets, stats } = buildFromRaw(
+    `${d.toString('utf8')}\n${freshHosts.join('\n')}`,
+    `${l.toString('utf8')}\n${fresh.join('\n')}`,
+    gunzipSync(c).toString('utf8'),
+  );
   mkdirSync(OUT, { recursive: true });
   const key = process.env.GW_LIST_SIGNING_KEY
     ? createPrivateKey({ key: Buffer.from(process.env.GW_LIST_SIGNING_KEY, 'base64'), format: 'der', type: 'pkcs8' })
@@ -181,7 +198,8 @@ async function main(): Promise<void> {
   if (!key) console.warn('! GW_LIST_SIGNING_KEY absente : listes NON signées (développement uniquement).');
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Lancé directement (et non importé) : comparaison portable, y compris sous Windows (D:\...).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err: unknown) => {
     console.error(err);
     process.exit(1);

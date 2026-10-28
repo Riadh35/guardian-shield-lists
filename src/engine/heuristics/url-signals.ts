@@ -12,7 +12,9 @@ import type { Signal } from '../types.ts';
 /** Poids de chaque indice. Calibrés sur le banc de mesure (docs/phase2/rapport-moteur.md). */
 export const WEIGHTS = {
   brand_lookalike: 0.85,
-  brand_same_name_other_tld_fr: 0.75,
+  // Même nom exact sur une autre extension : souvent un domaine défensif de la marque (urssaf.org,
+  // bnpparibas.net). « Prudence » seulement ; les indices de la page font passer en « dangereux ».
+  brand_same_name_other_tld_fr: 0.5,
   brand_in_subdomain: 0.9,
   fake_gov: 0.8,
   brand_keyword_fr: 0.58,
@@ -135,6 +137,13 @@ function compoundBrand(tokens: string[]): Brand | null {
   return null;
 }
 
+/**
+ * Extensions à enregistrement contrôlé (employeur, banque, État, université vérifiés) :
+ * on n'y achète pas un nom de marque au hasard, donc pas d'indice « nom de marque ».
+ */
+const RESTRICTED_TLDS = new Set(['jobs', 'bank', 'insurance', 'gov', 'edu', 'mil', 'int']);
+const RESTRICTED_SLD = /^(gov|gouv|edu|ac|mil|go|gob|govt|gv|gub)\./;
+
 export function urlSignals(p: ParsedUrl, ctx: { domainAgeDays?: number }): Signal[] {
   const out: Signal[] = [];
   const add = (id: Signal['id'], weight: number, params?: Record<string, string>): void => {
@@ -149,6 +158,7 @@ export function urlSignals(p: ParsedUrl, ctx: { domainAgeDays?: number }): Signa
   const labelJoined = labelTokens.join('-');
   const subTokens = tokenize(p.subdomain);
   const tld = p.suffix.split('.').pop() ?? '';
+  const restricted = RESTRICTED_TLDS.has(tld) || RESTRICTED_SLD.test(p.suffix);
 
   // 1. Homographes et punycode.
   if (p.host.includes('xn--')) {
@@ -186,7 +196,7 @@ export function urlSignals(p: ParsedUrl, ctx: { domainAgeDays?: number }): Signa
   const sk = skeleton(label);
   let lookalike: Brand | null = null;
   // Domaine officiel hébergeant du contenu d'utilisateurs (sites.google.com) : ni officiel ni imitation.
-  const ownDomain = BRANDS.some((b) => b.domaines.includes(p.domain));
+  const ownDomain = restricted || BRANDS.some((b) => b.domaines.includes(p.domain));
   for (const { label: official, brand } of ownDomain ? [] : OFFICIAL_LABELS) {
     if (label === official) {
       // Même nom, autre extension (ameli.com au lieu de ameli.fr) : très suspect pour une marque
@@ -237,6 +247,15 @@ export function urlSignals(p: ParsedUrl, ctx: { domainAgeDays?: number }): Signa
           break;
         }
       }
+    }
+    // Le domaine entier est exactement le nom de la marque (edf.com, sfr.com, dpd.ie) : même règle
+    // que « même nom, autre extension » ci-dessus, et non un nom de marque glissé dans un domaine.
+    if (bestBrand && bestKind === 'strong' && labelTokens.length === 1 && bestBrand.strongKeywords.includes(label)) {
+      if (isFrenchOnly(bestBrand) && !isCommonWord(label)) {
+        add('brand_same_name_other_tld', WEIGHTS.brand_same_name_other_tld_fr, { brand: bestBrand.appellation, name: bestBrand.nom, official: bestBrand.primaryDomain });
+      }
+      bestBrand = null;
+      bestKind = null;
     }
     if (bestBrand && bestKind) {
       const params = { brand: bestBrand.appellation, name: bestBrand.nom, official: bestBrand.primaryDomain };

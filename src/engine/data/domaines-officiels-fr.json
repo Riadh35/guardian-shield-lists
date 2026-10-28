@@ -745,12 +745,24 @@
         "sncf.com",
         "sncf.fr",
         "sncf-voyageurs.com",
-        "ouigo.com"
+        "ouigo.com",
+        "groupe-sncf.com",
+        "sncf"
       ],
       "motsCles": [
         "sncf",
         "ouigo"
       ],
+      "arnaquesTypiques": ""
+    },
+    {
+      "id": "wero",
+      "nom": "Wero",
+      "categorie": "banque",
+      "domaines": [
+        "wero-wallet.eu"
+      ],
+      "motsCles": [],
       "arnaquesTypiques": ""
     }
   ]
