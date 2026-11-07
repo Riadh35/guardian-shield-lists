@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "createdAt": "2026-11-07T08:51:32.972Z",
+  "signed": true,
+  "files": {
+    "dangerous-domains": {
+      "entries": 392212,
+      "bytes": 3137716,
+      "sha256": "5f6ab81ea33040e7b067fe13558a97d821c57fa3ebb637650aec1fe10e281e31"
+    },
+    "dangerous-urls": {
+      "entries": 4576,
+      "bytes": 36628,
+      "sha256": "b50939db302d47bcad0d2844351013ea88cb0d3e6ddf545434dd239aaa255c7b"
+    },
+    "popular-domains": {
+      "entries": 79940,
+      "bytes": 639540,
+      "sha256": "5f18db5b920b87f6cb58394ce8cf980168c83cf041738ef6e60506efc6e97195"
+    }
+  }
+}
